@@ -8,7 +8,6 @@ import Home from "./pages/Home/Home";
 import BookDetails from './pages/BookDetails/BookDetails'
 import ErrorPage from './pages/ErrorPage/ErrorPage'
 
-
 const router = createBrowserRouter([
   {
     path: "/",

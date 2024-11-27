@@ -14,7 +14,7 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <Modal
-        title="Update book"
+        title="Add new book"
         isOpen={isAddModalOpen}
         setIsOpen={setisAddModalOpen}
         overlayClick={false}
@@ -24,7 +24,6 @@ const Home = () => {
         textAlign="left"
       >
         <Form
-          idBook={80000}
           setIsSubmitting={setIsSubmitting}
           onFailure={() => setIsFailureModalOpen(true)}
           onSuccess={() => {

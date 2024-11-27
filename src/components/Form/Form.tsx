@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./Form.module.css";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./schema";
 import { addBook, updateBook } from "../../domains/services/booksServices";
-import { CircleX, CheckCircle2 } from "lucide-react";
 
 interface FormFields {
+  _id?: string,
   title: string;
   description: string;
   excerpt?: string;
@@ -18,7 +18,6 @@ interface FormFields {
 interface FormProps {
   defaultValues?: FormFields;
   children?: React.ReactNode;
-  idBook: number;
   setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
   onFailure?: () => void;
   onSuccess?: () => void;
@@ -27,7 +26,6 @@ interface FormProps {
 const Form: React.FC<FormProps> = ({
   defaultValues,
   children,
-  idBook,
   setIsSubmitting,
   onFailure,
   onSuccess,
@@ -52,7 +50,6 @@ const Form: React.FC<FormProps> = ({
 
   const onSubmit = async (data: FormFields) => {
     const book = {
-      id: idBook!,
       title: data.title,
       description: data.description,
       pageCount: data.pageCount,
@@ -63,8 +60,8 @@ const Form: React.FC<FormProps> = ({
     setIsSubmitting(true);
 
     try {
-      if (defaultValues && idBook) {
-        await updateBook(book);
+      if (defaultValues && data._id) {
+        await updateBook(book, data._id);
       } else {
         await addBook(book);
       }

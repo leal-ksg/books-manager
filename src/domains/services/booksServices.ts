@@ -1,19 +1,19 @@
 import axios from "axios";
 import { IBook } from "../types";
 
-const BASE_URL = "https://fakerestapi.azurewebsites.net/api/v1/Books";
+const BASE_URL = `http://localhost:3001/api/books`;
 
 export async function removeBook(book: IBook) {
-  const response = await axios.delete(`${BASE_URL}/${book.id}`);
+  const response = await axios.delete(`${BASE_URL}/${book._id}`);
   return response;
 }
 
-export async function updateBook(book: IBook) {
-  const response = await axios.put(`${BASE_URL}/${book.id}`, book);
+export async function updateBook(book: Omit<IBook, "_id">, idBook: string) {
+  const response = await axios.put(`${BASE_URL}/${idBook}`, book);
   return response;
 }
 
-export async function addBook(book: IBook) {
+export async function addBook(book: Omit<IBook, "_id">) {
   const response = await axios.post(BASE_URL, book);
   return response;
 }

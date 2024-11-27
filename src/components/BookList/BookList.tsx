@@ -6,7 +6,7 @@ import axios from "axios";
 import { fetchAllBooks } from "../../domains/services/booksServices.ts";
 
 interface BookData {
-  id: number;
+  _id: string;
   title: string;
   description: string;
   pageCount: number;
@@ -15,20 +15,20 @@ interface BookData {
 }
 
 interface Image {
-  id: number;
-  idBook: number;
+  _id: string;
+  idBook: string;
   url: string;
 }
 
 const BookList = () => {
   const [books, setBooks] = useState<BookData[]>([]);
 
-  const imagesMap = useRef(new Map<number, string>());
+  const imagesMap = useRef(new Map<string, string>());
 
   const fetchImages = async () => {
     try {
       const { data: images }: { data: Image[] } = await axios.get(
-        "https://fakerestapi.azurewebsites.net/api/v1/CoverPhotos"
+        `http://localhost:3001/api/images`
       );
 
       images.forEach((image) => {
@@ -55,8 +55,8 @@ const BookList = () => {
         return (
           <Book
             book={book}
-            key={book.id}
-            url={imagesMap.current?.get(book.id)}
+            key={book._id.toString()}
+            url={imagesMap.current?.get(book._id)}
           />
         );
       })}

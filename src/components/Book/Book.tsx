@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import styles from "./Book.module.css";
 import { IBook } from "../../domains/types";
 import { useNavigate } from "react-router-dom";
-import {ImageOff} from 'lucide-react'
-import BookImage from '../../assets/image.png'
+import { ImageOff } from "lucide-react";
 
 interface BookProps {
   book: IBook;
@@ -17,7 +16,7 @@ const Book: React.FC<BookProps> = ({ book, url }) => {
   return (
     <button
       className={styles.container}
-      onClick={() => navigate(`/book-details/${book.id}`)}
+      onClick={() => navigate(`/book-details/${book._id}`)}
     >
       {imageFound ? (
         <img
@@ -28,13 +27,12 @@ const Book: React.FC<BookProps> = ({ book, url }) => {
         />
       ) : (
         <div className={styles.imageNotFound}>
-          <ImageOff size={40}/>
+          <ImageOff size={40} />
         </div>
       )}
 
       <div className={styles.content}>
         <p>{book.title}</p>
-        <p>{book.publishDate.substring(0, 7)}</p>
       </div>
     </button>
   );

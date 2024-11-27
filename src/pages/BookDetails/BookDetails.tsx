@@ -103,7 +103,6 @@ const BookDetails = () => {
             ...book!,
             author: author ? `${author.firstName} ${author.lastName}` : " - ",
           }}
-          idBook={book?.id!}
           onFailure={() => setIsFailureModalOpen(true)}
           onSuccess={() => {
             setSuccessMessage("Book updated successfully.");

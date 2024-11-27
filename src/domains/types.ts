@@ -1,5 +1,7 @@
+import mongoose from "mongoose";
+
 export interface IBook {
-  id: number;
+  _id?: string;
   title: string;
   description: string;
   pageCount: number;
@@ -9,7 +11,7 @@ export interface IBook {
 
 export interface IAuthor {
   id: number;
-  idBook: number;
+  idBook: mongoose.Schema.Types.ObjectId;
   firstName: string;
   lastName: string;
 }
