@@ -5,9 +5,9 @@ import cors from "cors";
 
 import mongoose from "mongoose";
 
-config()
+config();
 
-mongoose.connect(process.env.MONGO_CONNECTION_STRING, { serverApi: { version: '1', strict: true, deprecationErrors: true } });
+mongoose.connect(process.env.MONGO_CONNECTION_STRING);
 
 const db = mongoose.connection;
 db.on("error", (err) => {
@@ -18,7 +18,7 @@ db.once("open", () => {
   console.log("Database online");
 });
 
-const server = express()
+const server = express();
 server.use(express.json());
 server.use(cors());
 server.use("/api", routes);

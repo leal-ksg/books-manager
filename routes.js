@@ -4,14 +4,15 @@ import ImageController from "./controllers/ImageController.js";
 
 const routes = express.Router();
 
-routes.get("/books", BookController.index);
-routes.get("/books/:id", BookController.show);
-routes.post("/books", BookController.store);
+routes.get("/books", BookController.findyAll);
+routes.get("/books/:id", BookController.findyOne);
+routes.post("/books", BookController.create);
 routes.put("/books/:id", BookController.update);
 routes.delete("/books/:id", BookController.remove);
 
-routes.get("/images", ImageController.index);
-routes.post("/images", ImageController.store);
+routes.get("/images", ImageController.findyAll);
+routes.get("/images/:idBook", ImageController.findyByBookId);
+routes.post("/images", ImageController.create);
 routes.delete("/images/:id", ImageController.remove);
 routes.put("/images/:id", ImageController.update);
 
