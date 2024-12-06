@@ -4,15 +4,16 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./schema";
 import { addBook, updateBook } from "../../domains/services/booksServices";
+import { addImage, updateImage } from "../../domains/services/imagesServices";
 
 interface FormFields {
-  _id?: string,
+  _id?: string;
   title: string;
   description: string;
   excerpt?: string;
-  author: string;
   pageCount: number;
   publishDate: string;
+  imageUrl?: string;
 }
 
 interface FormProps {
@@ -62,8 +63,18 @@ const Form: React.FC<FormProps> = ({
     try {
       if (defaultValues && data._id) {
         await updateBook(book, data._id);
+        await updateImage({
+          idBook: data._id,
+          url: data.imageUrl!,
+        });
       } else {
-        await addBook(book);
+        const newBook = await addBook(book);
+        console.log(newBook)
+        console.log(data.imageUrl)
+        await addImage({
+          idBook: newBook._id,
+          url: data.imageUrl!,
+        });
       }
       onSuccess && onSuccess();
     } catch (error) {
@@ -95,12 +106,6 @@ const Form: React.FC<FormProps> = ({
         </div>
 
         <div className={styles.inputGroup}>
-          <label htmlFor="author">Author</label>
-          <input type="text" {...register("author")} />
-          <span className={styles.error}>{errors?.author?.message}</span>
-        </div>
-
-        <div className={styles.inputGroup}>
           <label htmlFor="pageCount">Page Count</label>
           <input type="number" {...register("pageCount")} />
           <span className={styles.error}>{errors?.pageCount?.message}</span>
@@ -110,6 +115,12 @@ const Form: React.FC<FormProps> = ({
           <label htmlFor="publishDate">Publish Date</label>
           <input type="date" {...register("publishDate")} />
           <span className={styles.error}>{errors?.publishDate?.message}</span>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label htmlFor="imageUrl">Image URL</label>
+          <input type="text" {...register("imageUrl")} />
+          <span className={styles.error}>{errors?.imageUrl?.message}</span>
         </div>
 
         {children}

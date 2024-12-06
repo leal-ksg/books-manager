@@ -2,18 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ChevronLeft, Trash, Pencil } from "lucide-react";
 
-import bookImage from "../../assets/image.png";
-
 import styles from "./BookDetails.module.css";
-import axios from "axios";
-import { IBook, IAuthor } from "../../domains/types";
-import {
-  fetchBook,
-  removeBook,
-  updateBook,
-} from "../../domains/services/booksServices";
+import { IBook, IImage } from "../../domains/types";
+import { fetchBook, removeBook } from "../../domains/services/booksServices";
 import Modal from "../../components/Modal/Modal";
 import Form from "../../components/Form/Form";
+import { fetchImageByBookId } from "../../domains/services/imagesServices";
 
 const BookDetails = () => {
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
@@ -25,17 +19,10 @@ const BookDetails = () => {
   const [redirectTo, setRedirectTo] = useState("/");
 
   const [book, setBook] = useState<IBook>();
-  const [author, setAuthor] = useState<IAuthor>();
+  const [bookImage, setBookImage] = useState<IImage>();
+
   const { bookId } = useParams();
   const navigate = useNavigate();
-
-  const fetchAuthor = async () => {
-    const { data: authorData }: { data: IAuthor[] } = await axios.get(
-      `https://fakerestapi.azurewebsites.net/api/v1/Authors/authors/books/${bookId}`
-    );
-
-    setAuthor(authorData[0]);
-  };
 
   useEffect(() => {
     const fetchBookData = async () => {
@@ -43,9 +30,14 @@ const BookDetails = () => {
       setBook(bookData);
     };
 
+    const fetchImage = async () => {
+      const image = await fetchImageByBookId(bookId!);
+      setBookImage(image[0]);
+    };
+
     try {
       fetchBookData();
-      fetchAuthor();
+      fetchImage();
     } catch (error) {
       setIsFailureModalOpen(true);
     }
@@ -58,7 +50,7 @@ const BookDetails = () => {
 
       await removeBook(book);
       setSuccessMessage("Book removed successfully.");
-      setRedirectTo("/")
+      setRedirectTo("/");
       setIsSuccessModalOpen(true);
     } catch {
       setIsFailureModalOpen(true);
@@ -99,10 +91,7 @@ const BookDetails = () => {
         textAlign="left"
       >
         <Form
-          defaultValues={{
-            ...book!,
-            author: author ? `${author.firstName} ${author.lastName}` : " - ",
-          }}
+          defaultValues={book}
           onFailure={() => setIsFailureModalOpen(true)}
           onSuccess={() => {
             setSuccessMessage("Book updated successfully.");
@@ -175,13 +164,6 @@ const BookDetails = () => {
           </div>
 
           <div className={styles.detailGroup}>
-            <p>Author</p>
-            <div className={styles.detail}>
-              {author && `${author?.firstName} ${author?.lastName}`}
-            </div>
-          </div>
-
-          <div className={styles.detailGroup}>
             <p>Pages count</p>
             <div className={styles.detail}>{book?.pageCount}</div>
           </div>
@@ -212,7 +194,7 @@ const BookDetails = () => {
 
       <div className={styles.secondColumn}>
         <div className={styles.imgContainer}>
-          {book && <img src={bookImage} alt="Book Image" />}
+          <img src={`/${bookImage?.url}`} alt="Book Image" />
         </div>
         <button className={styles.back} onClick={() => navigate("/")}>
           <ChevronLeft />

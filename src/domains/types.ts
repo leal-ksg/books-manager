@@ -7,11 +7,11 @@ export interface IBook {
   pageCount: number;
   excerpt?: string;
   publishDate: string;
+  imageUrl?: string;
 }
 
-export interface IAuthor {
-  id: number;
-  idBook: mongoose.Schema.Types.ObjectId;
-  firstName: string;
-  lastName: string;
+export interface IImage {
+  _id?: string;
+  idBook: string;
+  url: string;
 }

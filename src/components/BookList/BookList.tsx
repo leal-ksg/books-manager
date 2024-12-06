@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./BookList.module.css";
 
-import Book from "../Book/Book.tsx";
+import Book from "../Book/Book";
 import axios from "axios";
-import { fetchAllBooks } from "../../domains/services/booksServices.ts";
+import { fetchAllBooks } from "../../domains/services/booksServices";
+import { IImage } from "../../domains/types";
 
 interface BookData {
   _id: string;
@@ -14,12 +15,6 @@ interface BookData {
   publishDate: string;
 }
 
-interface Image {
-  _id: string;
-  idBook: string;
-  url: string;
-}
-
 const BookList = () => {
   const [books, setBooks] = useState<BookData[]>([]);
 
@@ -27,7 +22,7 @@ const BookList = () => {
 
   const fetchImages = async () => {
     try {
-      const { data: images }: { data: Image[] } = await axios.get(
+      const { data: images }: { data: IImage[] } = await axios.get(
         `http://localhost:3001/api/images`
       );
 
