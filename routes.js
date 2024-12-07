@@ -14,6 +14,6 @@ routes.get("/images", ImageController.findyAll);
 routes.get("/images/:idBook", ImageController.findyByBookId);
 routes.post("/images", ImageController.create);
 routes.delete("/images/:id", ImageController.remove);
-routes.put("/images/:id", ImageController.update);
+routes.put("/images/:idBook", ImageController.update);
 
 export default routes;

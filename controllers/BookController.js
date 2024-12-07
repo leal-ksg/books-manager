@@ -5,7 +5,7 @@ async function findyAll(req, res) {
     const books = await Book.find({});
     return res.json(books);
   } catch (err) {
-    res
+    return res
       .status(500)
       .send({ error: `An error occurred on fetching books: ${err}` });
   }
@@ -16,7 +16,7 @@ async function create(req, res) {
     const book = await Book.create(req.body);
     return res.json(book);
   } catch (err) {
-    res
+    return res
       .status(500)
       .send({ error: `An error occurred on creating a new book: ${err}` });
   }
@@ -27,11 +27,9 @@ async function findyOne(req, res) {
     const book = await Book.findById(req.params.id);
     return res.json(book);
   } catch (err) {
-    res
-      .status(500)
-      .send({
-        error: `An error occurred on fetching an especific book: ${err}`,
-      });
+    return res.status(500).send({
+      error: `An error occurred on fetching an especific book: ${err}`,
+    });
   }
 }
 
@@ -43,7 +41,7 @@ async function update(req, res) {
 
     return res.json(book);
   } catch (err) {
-    res
+    return res
       .status(500)
       .send({ error: `An error occurred on updating a book: ${err}` });
   }
@@ -55,7 +53,7 @@ async function remove(req, res) {
 
     return res.send({ msg: "Book removed!" });
   } catch (err) {
-    res
+    return res
       .status(500)
       .send({ error: `An error occurred on fetching books: ${err}` });
   }
