@@ -10,7 +10,7 @@ export async function removeImage(imageId: string) {
 
 export async function updateImage(image: IImage) {
 
-  const response = await axios.put(`${BASE_URL}/${image._id}`, image);
+  const response = await axios.put(`${BASE_URL}/${image.idBook}`, image);
   return response;
 }
 

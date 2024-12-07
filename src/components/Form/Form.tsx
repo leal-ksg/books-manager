@@ -69,13 +69,12 @@ const Form: React.FC<FormProps> = ({
         });
       } else {
         const newBook = await addBook(book);
-        console.log(newBook)
-        console.log(data.imageUrl)
         await addImage({
           idBook: newBook._id,
           url: data.imageUrl!,
         });
       }
+
       onSuccess && onSuccess();
     } catch (error) {
       onFailure && onFailure();

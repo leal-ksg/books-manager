@@ -17,6 +17,7 @@ const BookDetails = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [redirectTo, setRedirectTo] = useState("/");
+  const [shouldReload, setShouldReload] = useState(false);
 
   const [book, setBook] = useState<IBook>();
   const [bookImage, setBookImage] = useState<IImage>();
@@ -41,7 +42,7 @@ const BookDetails = () => {
     } catch (error) {
       setIsFailureModalOpen(true);
     }
-  }, []);
+  }, [shouldReload]);
 
   const handleRemoveConfirm = async () => {
     setIsRemoveModalOpen(false);
@@ -91,9 +92,10 @@ const BookDetails = () => {
         textAlign="left"
       >
         <Form
-          defaultValues={book}
+          defaultValues={{ ...book!, imageUrl: bookImage?.url }}
           onFailure={() => setIsFailureModalOpen(true)}
           onSuccess={() => {
+            setShouldReload(!shouldReload);
             setSuccessMessage("Book updated successfully.");
             setRedirectTo(`/book-details/${bookId}`);
             setIsUpdateModalOpen(false);
@@ -177,12 +179,14 @@ const BookDetails = () => {
 
           <div className={styles.buttonsGroup}>
             <button
+              type='button'
               className={styles.update}
               onClick={() => setIsUpdateModalOpen(true)}
             >
               <Pencil />
             </button>
             <button
+              type='button'
               className={styles.delete}
               onClick={() => setIsRemoveModalOpen(true)}
             >
@@ -193,10 +197,8 @@ const BookDetails = () => {
       </div>
 
       <div className={styles.secondColumn}>
-        <div className={styles.imgContainer}>
-          <img src={`/${bookImage?.url}`} alt="Book Image" />
-        </div>
-        <button className={styles.back} onClick={() => navigate("/")}>
+        <img src={`${bookImage?.url}`} alt="Book Image" />
+        <button type='button' className={styles.back} onClick={() => navigate("/")}>
           <ChevronLeft />
           Back
         </button>

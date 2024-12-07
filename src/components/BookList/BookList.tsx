@@ -15,7 +15,11 @@ interface BookData {
   publishDate: string;
 }
 
-const BookList = () => {
+interface BookListProps {
+  shouldReload: boolean
+}
+
+const BookList = ({shouldReload} : BookListProps) => {
   const [books, setBooks] = useState<BookData[]>([]);
 
   const imagesMap = useRef(new Map<string, string>());
@@ -42,7 +46,7 @@ const BookList = () => {
 
     fetchAllBooksData();
     fetchImages();
-  }, []);
+  }, [shouldReload]);
 
   return (
     <div className={styles.container}>

@@ -10,7 +10,9 @@ const Home = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isFailureModalOpen, setIsFailureModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [shouldReload, setShouldReload] = useState(false)
 
+  useEffect(() => {}, [shouldReload])
   return (
     <div className={styles.container}>
       <Modal
@@ -72,6 +74,7 @@ const Home = () => {
           <button
             onClick={() => {
               setIsSuccessModalOpen(false);
+              setShouldReload(!shouldReload)
             }}
             className={styles.ok}
           >
@@ -86,7 +89,7 @@ const Home = () => {
           <Plus></Plus>
         </button>
       </div>
-      <BookList />
+      <BookList shouldReload={shouldReload}/>
     </div>
   );
 };

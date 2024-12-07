@@ -13,7 +13,6 @@ const Book: React.FC<BookProps> = ({ book, url }) => {
   const [imageFound, setImageFound] = useState(true);
   const navigate = useNavigate();
 
-  console.log(url)
   return (
     <button
       className={styles.container}

@@ -8,7 +8,7 @@ export async function removeBook(book: IBook) {
   return response.data;
 }
 
-export async function updateBook(book: Omit<IBook, "_id">, idBook: string) {
+export async function updateBook(book: IBook, idBook: string) {
   const response = await axios.put(`${BASE_URL}/${idBook}`, book);
   return response.data;
 }
